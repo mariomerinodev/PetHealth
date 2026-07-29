@@ -1,8 +1,16 @@
+import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Esto calcula automáticamente la ruta absoluta hasta la carpeta backend/ donde está el .env
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ENV_FILE = os.path.join(BASE_DIR, ".env")
 
 class Settings(BaseSettings):
     database_url: str
+    secret_key: str
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
 
-    model_config = SettingsConfigDict(env_file="../../.env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=ENV_FILE, extra="ignore")
 
 settings = Settings()
