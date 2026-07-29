@@ -1,6 +1,7 @@
 import uuid
 from sqlalchemy import Column, String, DateTime, text
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from ...config.database import Base
 
@@ -13,3 +14,5 @@ class User(Base):
     role = Column(String, default="free", nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+    pets = relationship("Pet", back_populates="owner", cascade="all, delete-orphan")
